@@ -8,6 +8,7 @@ import humidity_icon from '../assets/humidity.png'
 import rain_icon from '../assets/rain.png'
 import snow_icon from '../assets/snow.png'
 import wind_icon from '../assets/wind.png'
+import night_icon from '../assets/night.png'
 
 
 const Weather = () => {
@@ -47,6 +48,12 @@ const Weather = () => {
 
       const response = await fetch(url);
       const data = await response.json();
+
+      const currentTime = data.dt;
+      const sunset = data.sys.sunset;
+      const sunrise = data.sys.sunrise;
+
+      const isNight = currentTime<sunrise || currentTime>sunset;
       console.log(data)
 
       if(!response.ok){
@@ -54,7 +61,14 @@ const Weather = () => {
         return;
       }
 
-      const icon = allIcons[data.weather[0].icon] || clear_icon
+      
+
+      let icon = allIcons[data.weather[0].icon] || clear_icon
+
+      if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
+  icon = isNight ? night_icon : clear_icon;
+}
+
       setWeatherData({
         humidity: data.main.humidity,
         windSpeed: data.wind.speed,
