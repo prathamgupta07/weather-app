@@ -92,7 +92,7 @@
 @media (max-width: 420px) {
 
   .weather {
-    width: 90%;
+    width: 100%;
     max-width: 300px;   
     padding: 18px;
   }
